@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CheeseLux</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.8.16.custom.css"/>    
+    <script src="jquery-1.7.1.js" type="text/javascript"></script>    
+    <script src="jquery-ui-1.8.16.custom.js" type="text/javascript"></script>
+    <script src='knockout-2.0.0.js' type='text/javascript'></script>
+    <script src='cheeseutils.js' type='text/javascript'></script>
+    <script src='signals.js' type='text/javascript'></script>
+    <script src='crossroads.js' type='text/javascript'></script>
+    <script src='hasher.js' type='text/javascript'></script>
+    <noscript>
+        <meta http-equiv="refresh" content="0; noscript.html"/>       
+    </noscript>    
+    <script>
+
+        var cheeseModel = {};
+      
+        $(document).ready(function() {
+
+            $.getJSON("products.json", function(data) {
+                
+                cheeseModel = extendDataModel(data);
+                                
+                setDefaultValues();
+                                                                                        
+                ko.applyBindings(cheeseModel);
+                
+                $('div.catSelectors').buttonset();
+                $('a.nav').button().css("font-family", "Yanone");
+                
+                crossroads.addRoute("{mode}/:setting:", handleURLChange);
+                
+                hasher.initialized.add(crossroads.parse, crossroads); 
+                hasher.changed.add(crossroads.parse, crossroads); 
+                hasher.init();
+            });
+        });
+        
+        function handleURLChange(mode, setting) {
+                
+            switch (mode) {
+                case "shopping":
+                    if (setting) {
+                        cheeseModel.selectedCategory(setting);
+                    }
+                    break;
+                case "detail":
+                    cheeseModel.selectedProduct(setting ?
+                        setting : cheeseModel.products[0].items[0].id);
+                case "summary":
+                    alert("Order Placed");
+                    setDefaultValues();
+                    mode = "shopping";
+                    break;
+            };
+            selectVisibleSection(mode ? mode : "shopping");            
+        }
+        
+        function setDefaultValues() {
+            cheeseModel.selectedCategory(cheeseModel.products[0].category);
+            cheeseModel.selectedProduct(cheeseModel.products[0].items[0].id);            
+        }
+        
+        function selectVisibleSection(newSection) {
+            $('div.displaySection:visible').toggle(false);
+            $('#' + newSection).toggle(true);
+        }
+    </script>
+</head>
+<body>
+    <div id="logobar">
+        <img src="cheeselux.png">
+        <span id="tagline">Gourmet European Cheese</span>
+    </div>
+
+    <div id="shopping" class="displaySection">
+        <div class="catSelectors" data-bind="foreach: products">
+            <a class="categorySelector nav"
+               data-bind="formatAttr: {attr: 'href',
+                   prefix: '#shopping/', value: category},
+                   css: {'selectedCategory': category == cheeseModel.selectedCategory()}">
+                <span data-bind="text:category"></span>
+            </a>
+        </div>
+                
+        <!-- ko foreach: products -->            
+        <div class="cheesegroup"
+             data-bind="visible: (category == cheeseModel.selectedCategory())">
+             <div class="grouptitle" data-bind="text: category"></div>
+             
+             <!-- ko foreach: items -->
+             <div class="groupcontent">
+                 <label data-bind="attr: {for: id}" class="cheesename">
+                     <span data-bind="text: name">
+                     </span> $(<span data-bind="text:price"></span>)</label>
+                 <input data-bind="attr: {name: id}, value: quantity"/>
+                 <a class="detail icon ui-icon-info" data-bind="formatAttr: {attr: 'href', prefix: '#detail/', value: id}"></a>                 
+                 <span data-bind="visible: subtotal" class="subtotal">
+                     ($<span data-bind="text: subtotal"></span>)
+                 </span>
+
+             </div>
+             <!-- /ko -->
+             
+             <div class="sumline"></div>
+             <div class="groupcontent">
+                 <label class="cheesename">Total:</label>
+                 <span class="subtotal" id="total">
+                    $<span data-bind="text: $parent.total"></span>
+                 </span>
+             </div>
+         </div>
+        <!-- /ko -->
+        <div id="buttonDiv">
+            <a class="nav" href="#shipping">Next Step</a>
+        </div>        
+    </div>
+    
+    <div id="shipping" class="displaySection">
+        <div class="cheesegroup">
+            <div class="grouptitle">Your Details</div>
+            
+            <div data-bind="foreach: shipping">
+                <div class="groupcontent">
+                    <label data-bind="attr: {for: id}" class="cheesename">
+                        <span data-bind="text: label"></span>:
+                    </label>
+                    <input class="shipping" name="id"/>
+                </div>
+            </div>
+        </div>
+        <div id="buttonDiv">
+            <a class="nav" href="#summary">Next Step</a>
+        </div>
+    </div>
+    
+    <div id="detail" class="displaySection">
+        <div data-bind="foreach: products">
+            <div data-bind="foreach: items">            
+                <div class="cheesegroup" data-bind="visible: id == cheeseModel.selectedProduct()">
+                    <div class="grouptitle" data-bind="text: name"></div>
+                    <div class="groupcontent" style="height: 260px">    
+                        <img class="detailImg" data-bind="formatAttr: {attr: 'src', prefix: 'images/',value: id, suffix: '.png'}" />
+                        <div class="descriptionContent">
+                            <div class="description" data-bind="text: description"></div>                            
+                            <label data-bind="attr: {for: id}" class="cheesename">
+                                Price:$(<span data-bind="text:price"></span>)
+                            </label>
+                            <input data-bind="attr: {name: id}, value: quantity"/>
+                            <a class="nav" href="#shopping">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

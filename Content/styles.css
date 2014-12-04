@@ -1,0 +1,305 @@
+@font-face {
+    font-family: 'Ostrich';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/ostrich-rounded-webfont.woff');
+}
+
+@font-face {
+    font-family: 'LeagueGothic';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/League_Gothic-webfont.woff');
+}
+
+@font-face {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/raleway_thin-webfont.woff');
+}
+
+@font-face {
+    font-family: 'Fanwood';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/fanwood_italic-webfont.ttf');
+}          
+
+@font-face {
+    font-family: 'Yanone';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/YanoneKaffeesatz-Regular.ttf');
+}  
+
+body {
+    margin: 0px; color: white;
+    font-family: ostrich, sans-serif;
+    font-size: 20px;
+    background-image: url("blackwave.png");
+}
+
+#logobar {
+    padding: 10px;
+    padding-left: 20px;
+    margin: 0px;
+}
+
+#logobar img {
+    height: 50px
+}
+
+#tagline {
+    font-family: Ostrich, sans-serif;
+    font-size: 30px;
+    vertical-align: top;
+    padding-right: 25px
+}
+
+div.cheesegroup {
+    border-radius: 8px;
+    margin-top: 10px;
+    background-image: url("blackwave.png");
+    margin: 5px;
+}
+
+div.basket {
+    position: fixed;
+    float: right;
+    right: 0px;
+    width: 48%;
+}
+
+div.grouptitle {
+    background-color: #f58809;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+div.groupcontent {
+    background-color: #595959;
+    padding: 10px;
+    padding-left: 20px;
+}
+
+div.groupcontent:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+div.nocorners:last-child {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;    
+}
+        
+label.cheesename {
+    font-family: Yanone, sans-serif;
+    display: inline-block;
+    min-width: 200px;
+    font-size: 20px;
+}
+
+
+
+div.groupcontent input {
+    font-family: sans-serif;
+    font-size: .8em;
+    width: 3em;
+    margin-left: 5px;
+}
+
+div.groupcontent input.shipping {
+    width: 10em;
+}
+
+div.groupcontent input.stwin {
+    width: 5em;
+}
+
+div.groupcontent label {
+    min-width:150px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+div.groupcontent label.slabel:nth-of-type(2) {
+    min-width: 0px;
+    margin-left: 10px;
+}
+
+#buttonDiv {
+    text-align: center;
+}
+
+a.button {
+    background-color: #f58809;
+    padding: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin: 2px;
+    border-radius: 8px;
+    font-family: Yanone, sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+}
+
+a.buttonHover {
+    background-color: #fbbe03;
+}
+
+#basketTable, table.basketTable {
+    border-collapse: collapse;
+    background-color: #595959;
+    color: white;
+    font-family: Yanone, sans-serif;
+    font-size: 20px;
+    text-align: right;
+    width: 100%;
+}
+
+#basketTable th, #basketTable td {
+    font-family: Yanone, sans-serif;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: right;
+}
+
+#basketTable td:first-child, #basketTable thead th:first-child {
+    text-align: left;
+    min-width: 130px;
+}
+
+td.sumline {
+    border: thin solid #f58809;
+    background-color: #f58809;
+}
+
+div.sumline {
+    border: thin solid #f58809;
+    background-color: #f58809;
+}
+
+div.cornerplaceholder {
+    min-height: 10px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #595959;
+}
+
+div.shippingitem {
+    padding-top:2px;
+    padding-bottom: 2px;
+}
+
+span.subtotal {
+    font-family: Yanone, sans-serif;    
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.latent {
+    display: none;
+}
+
+.placeholder {
+    visibility: hidden;
+}
+
+table.adminTable {
+    font-family: Yanone, sans-serif;
+    font-size: 20px;
+    width: 100%;
+}
+
+td.pname input {
+    width: 150px;
+}
+
+td.pprice input {
+    text-align: right;
+}
+
+table.adminTable th {
+    text-align: left;
+}
+
+input.changed {
+    border: solid 3px red;
+}
+
+div.catSelectors {
+    margin-left: 5px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+div.catSelectors a {
+    font-family: Yanone;    
+}
+
+div.catSelectors a.selectedCategory, div.catSelectors a.selectedItem {
+    background-color: #fbbe03;
+    background-image: none;
+}
+
+img.detailImg {
+    height: 250px;
+    border: solid medium #fbbe03;
+    float: left;
+    margin-right: 10px;
+}
+
+div.descriptionContent label {
+    width: auto;
+    min-width: inherit;
+}
+
+div.description {
+    padding-bottom: 10px;
+    font-family: Fanwood, sans-serif;   
+}
+
+.icon {
+    display: inline-block;
+    min-width: 16px;
+    height: 16px;
+    background-image: url(images/ui-icons_ffffff_256x240.png);
+}
+
+div.item {
+    font-family: Yanone;
+    font-size: 30px;
+    text-align: center;
+    background-color: #f58809;
+    border-radius: 8px;
+    width: 70%;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.eventElemContainer {
+    text-align: center;
+    margin-top: 10px;
+}
+
+div.navSelectors {
+    text-align: center;
+}
+
+div.navSelectors a {
+    font-family: Yanone;    
+}
+
+div.navSelectors a.selectedCategory, div.navSelectors a.selectedItem {
+    background-color: #fbbe03;
+    background-image: none;
+}
+

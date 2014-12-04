@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>CheeseLux</title>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>        
+    </head>
+<body>
+    <div id="logobar">
+        <img src="cheeselux.png">
+        <span id="tagline">Gourmet European Cheese</span>
+    </div>
+        
+    <form action="/summary" method="post">
+    
+        <div class="cheesegroup">
+            <div class="grouptitle">Your Details</div>
+            
+            <div class="groupcontent">
+                <label for="name" class="cheesename">Name:</label><input class="shipping" name="name"/>
+            </div>
+            <div class="groupcontent">
+                <label for="address" class="cheesename">Street Address:</label><input class="shipping" name="address"/>
+            </div>
+            <div class="groupcontent">
+                <label for="city" class="cheesename">City:</label><input class="shipping" name="city"/>
+            </div>
+            <div class="groupcontent">
+                <label for="state" class="cheesename slabel">State:</label><input class="shipping stwin" name="state"/>
+                <label for="zip" class="cheesename slabel">ZIP:</label><input class="shipping stwin" name="zip"/>
+            </div>
+        </div>
+        <div id="buttonDiv">
+            <input type="submit" />
+        </div>
+        
+        {{each properties}}
+            <input type="hidden" name="${$value.propName}" value="${$value.propVal}"/>
+        {{/each}}
+        
+    </form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CheeseLux</title>
+    <script src="jquery-1.7.1.js" type="text/javascript"></script>    
+    <script src="jquery.mobile-1.0.1.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery.mobile-1.0.1.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.mobile.css"/>
+    <script>        
+        function setCookie(name, value, days) {
+            var date = new Date();
+            date.setTime(date.getTime()+(days * 24 * 60 * 60 *1000));
+            document.cookie = name + "="+ value
+                + "; expires=" + date.toGMTString() +"; path=/";            
+        }
+        
+        $(document).bind("pageinit", function() {          
+            $('button').click(function(e) {
+                var useMobile = e.target.id == "yes";
+                var useMobileValue = useMobile ? "mobile" : "desktop";
+                if (localStorage) {
+                    localStorage["cheeseLuxMode"] = useMobileValue;
+                } else {
+                    setCookie("cheeseLuxMode", useMobileValue, 30);
+                }
+                location.href = useMobile ? "mobile.html" : "example.html";
+            });
+        });                 
+    </script>
+</head>
+<body>
+    <div id="page1" data-role="page" data-theme="a">
+        <img class="logo" src="cheeselux.png">                
+        <span class="para">
+            Would you like to use our mobile web app?
+        </span>
+        <div class="middle">
+            <button data-inline="true" data-theme="b" id="yes">Yes</button>
+            <button data-inline="true" id="no">No</button>        
+        </div>
+    </div>
+</body>
+</html>

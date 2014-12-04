@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CheeseLux</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script src="jquery-1.7.1.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.8.16.custom.js" type="text/javascript"></script>
+    <script src='knockout-2.0.0.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.8.16.custom.css"/>
+
+    <script>
+        var cheeseModel = {
+            products: [{
+                category: "British Cheese",
+                items: [{
+                    id: "stilton",
+                    name: "Stilton",
+                    price: 9
+                }, {
+                    id: "stinkingbishop",
+                    name: "Stinking Bishop",
+                    price: 17
+                }, {
+                    id: "cheddar",
+                    name: "Cheddar",
+                    price: 17
+                }]
+            }, {
+                category: "French Cheese",
+                items: [{
+                    id: "camembert",
+                    name: "Camembert",
+                    price: 18
+                }, {
+                    id: "tomme",
+                    name: "Tomme de Savoie",
+                    price: 19
+                }, {
+                    id: "morbier",
+                    name: "Morbier",
+                    price: 9
+                }]
+            }, {
+                category: "Italian Cheese",
+                items: [{
+                    id: "gorgonzola",
+                    name: "Gorgonzola",
+                    price: 8
+                }, {
+                    id: "fontina",
+                    name: "Fontina",
+                    price: 11
+                }, {
+                    id: "parmesan",
+                    name: "Parmesan",
+                    price: 16
+                }]
+            }]
+        };
+
+        function mapProducts(func) {
+            $.each(cheeseModel.products, function(catIndex, outerItem) {
+                $.each(outerItem.items, function(itemIndex, innerItem) {
+                    func(innerItem);
+                });
+            });
+        }
+
+        $(document).ready(function() {
+            $('#buttonDiv input:submit').button().css("font-family", "Yanone, sans-serif");
+
+
+            cheeseModel.specials = {
+                category: "Special Offers",
+                discount: 3,
+                ids: ["stilton", "tomme"],
+                items: []
+            };
+
+            mapProducts(function(item) {
+                if ($.inArray(item.id, cheeseModel.specials.ids) > -1) {
+                    item.price -= cheeseModel.specials.discount;
+                    cheeseModel.specials.items.push(item);
+                }
+                item.quantity = ko.observable(0);
+            });
+
+            ko.applyBindings(cheeseModel);
+
+        });
+
+         </script>
+         <script id="categoryTmpl" type="text/html">
+            <div class="cheesegroup">
+                <div class="grouptitle" data-bind="text: category"></div>
+                <div data-bind="foreach: items">
+                    <div class="groupcontent">
+                            <label data-bind="attr: {for: id}" class="cheesename">
+                                <span data-bind="text: name"></span> $(<span data-bind="text:price"></span>)
+                            </label>
+                            <input data-bind="attr: {name: id}, value: quantity"/>
+                        </div>
+                    </div>
+                </div>
+        </script>
+</head>
+<body>
+    
+    <div id="logobar">
+        <img src="cheeselux.png">
+            <span id="tagline">Gourmet European Cheese</span>
+    </div>
+    
+    <div data-bind="template: {name: 'categoryTmpl', data: specials}"></div>
+    <form action="/shipping" method="post">
+        <div data-bind="template: {name: 'categoryTmpl', foreach: products}"></div>
+        <div id="buttonDiv">
+            <input type="submit" />
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CheeseLux</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+</head>
+<body>
+    
+    <div id="logobar">
+        <img src="cheeselux.png">
+            <span id="tagline">Gourmet European Cheese</span>
+    </div>
+    
+    <form action="/basket" method="post">
+        
+        <div class="cheesegroup">
+            <div class="grouptitle">French Cheese</div>
+            
+            <div class="groupcontent">
+                <label for="camembert" class="cheesename">Camembert ($18)</label>
+                <input name="camembert" value="0"/>
+            </div>
+            
+            <div class="groupcontent">
+                <label for="tomme" class="cheesename">Tomme de Savoie ($19)</label>
+                <input name="tomme" value="0"/>
+            </div>            
+            
+            <div class="groupcontent">
+                <label for="morbier" class="cheesename">Morbier ($9)</label>
+                <input name="morbier" value="0"/>
+            </div>               
+        </div>
+        
+        <div id="buttonDiv">
+            <input type="submit" />
+        </div>
+    </form>
+</body>
+</html>

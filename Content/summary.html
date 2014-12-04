@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>CheeseLux</title>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>        
+    </head>
+<body>
+    <div id="logobar">
+        <img src="cheeselux.png">
+        <span id="tagline">Gourmet European Cheese</span>
+    </div>
+        
+    <div class="cheesegroup">
+        <div class="grouptitle">Your Details</div>
+        
+        <div class="groupcontent shippingitem">
+            <label for="name" class="cheesename">Name:</label>
+            <span class="shipping">${$data.getAndRemoveDataProp("name")}</span>
+        </div>
+        <div class="groupcontent shippingitem">
+            <label for="address" class="cheesename">Street Address:</label>
+            <span class="shipping">${$data.getAndRemoveDataProp("address")}</span>
+        </div>
+        <div class="groupcontent shippingitem">
+            <label for="city" class="cheesename">City:</label>
+            <span class="shipping">${$data.getAndRemoveDataProp("city")}</span>
+        </div>
+        <div class="groupcontent shippingitem">
+            <label for="state" class="cheesename">State:</label>
+            <span class="shipping">${$data.getAndRemoveDataProp("state")}</span>
+        </div>
+        <div class="groupcontent shippingitem">
+            <label for="zip" class="cheesename">ZIP:</label>
+            <span class="shipping">${$data.getAndRemoveDataProp("zip")}</span>
+        </div>            
+    </div>    
+
+    <div class="cheesegroup">
+        <div class="grouptitle">Your Basket</div>
+        
+        <table class="basketTable" border=0>
+            <thead>
+                <tr><th>Cheese</th><th>Quantity</th><th>Subtotal</th></tr>
+                <tr><td class="sumline" colspan=3></td></tr>
+            </thead>
+            <tbody>
+                {{each properties}}
+                    {{if $value.propVal > 0}}
+                    <tr>
+                        <td>${$data.getProp($value.propName, "name")}</td>
+                        <td>${$value.propVal}</td>
+                        <td>$${$data.getSubtotal($value.propName, $value.propVal)}</td>
+                    </tr>
+                    {{/if}}
+                {{/each}}
+            </tbody>
+            <tfoot>
+                <tr><td class="sumline" colspan=3></td></tr>
+                <tr><th colspan=2>Total:</th><td>$${$data.total}</td>
+            </tfoot>
+        </table>
+        <div class="cornerplaceholder"></div>
+    </div>    
+</body>
+</html>

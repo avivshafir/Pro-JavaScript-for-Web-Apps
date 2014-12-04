@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Form Echo</title>
+    </head>
+    <style>
+        th, td {text-align:left; padding:5px; color:black}
+        th {background-color:grey; color:white; min-width:10em}
+        td {background-color:lightgrey}
+        caption {font-weight:bold}
+    </style>    
+    <body>            
+        <table border="1">
+            <caption>Form Data</caption>
+            <tr><th>Name</th><th>Value</th>
+            {{each properties}}
+                <tr><td>${$value.propName}</td><td>${$value.propVal}</td></tr>
+            {{/each}}                    
+        </table>
+    </body>
+</html>

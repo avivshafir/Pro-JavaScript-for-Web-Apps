@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>CheeseLux</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+</head>
+<body>
+    <div id="logobar">
+        <img src="cheeselux.png">
+        <span id="tagline">Gourmet European Cheese</span>
+    </div>
+    <form action="/shipping" method="post">
+        <div class="cheesegroup">
+            <div class="grouptitle">Your Basket</div>
+            <table class="basketTable" border=0>
+                <thead>
+                    <tr><th>Cheese</th><th>Quantity</th><th>Subtotal</th></tr>
+                    <tr><td class="sumline" colspan=3></td></tr>
+                </thead>
+                <tbody>
+                    {{each properties}}
+                        {{if $value.propVal > 0}}
+                        <tr>
+                            <td>${$data.getProp($value.propName, "name")}</td>
+                            <td>${$value.propVal}</td>
+                            <td>
+                                $${$data.getSubtotal($value.propName, $value.propVal)}
+                            </td>
+                        </tr>
+                        {{/if}}
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr><td class="sumline" colspan=3></td></tr>
+                    <tr><th colspan=2>Total:</th><td>$${$data.total}</td>
+                </tfoot>
+            </table>
+            <div class="cornerplaceholder"></div>
+        </div>
+        <div id="buttonDiv">
+            <input type="submit" />
+        </div>
+        {{each properties}}
+            <input type="hidden" name="${$value.propName}" value="${$value.propVal}"/>
+        {{/each}}
+    </form>
+</body>
+</html>

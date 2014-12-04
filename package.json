@@ -1,0 +1,17 @@
+{
+  "name": "ProJavascript",
+  "version": "0.0.0-1",
+  "description": "ProJavaScriptWebApps_By_AdamFreeman",
+  "main": "server.js",
+  "author": {
+    "name": "aviv",
+    "email": "ashafir20@gmail.com"
+  },
+  "dependencies": {
+    "jqtpl": "*",
+    "node-static": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
