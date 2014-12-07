@@ -67,8 +67,16 @@
         }
 
         $(document).ready(function() {
-            $('#buttonDiv input:submit').button().css("font-family", "Yanone, sans-serif");
-
+            $('#buttonDiv input').button().css("font-family", "Yanone")
+                 .click(function() {
+                     if (this.type == "submit") {
+                         $('form').submit();
+                     } else if (this.type == "reset") {
+                         mapProducts(function (item) {
+                             item.quantity(0);
+                         });
+                     }
+                 });
 
             cheeseModel.specials = {
                 category: "Special Offers",
@@ -77,31 +85,65 @@
                 items: []
             };
 
-            mapProducts(function(item) {
+            mapProducts(function (item) {
                 if ($.inArray(item.id, cheeseModel.specials.ids) > -1) {
                     item.price -= cheeseModel.specials.discount;
                     cheeseModel.specials.items.push(item);
                 }
                 item.quantity = ko.observable(0);
+                item.subtotal = ko.computed(function () {
+                    return this.quantity() * this.price;
+                }, item);
+            });
+
+            cheeseModel.total = ko.computed(function() {
+                var total = 0;
+                mapProducts(function (elem) {
+                    total += elem.subtotal();
+                });
+                return total;
             });
 
             ko.applyBindings(cheeseModel);
 
+            $('div.cheesegroup').not("#basket").css("width", "50%");
+            $('#basketTable a')
+                .button({ icons: { primary: "ui-icon-closethick" }, text: false })
+                .click(function() {
+                    var targetId = $(this).closest('tr').attr("data-prodId");
+                    mapProducts(function(item) {
+                        if (item.id == targetId) {
+                            item.quantity(0);
+                        }
+                    });
+                });
+
         });
 
-         </script>
-         <script id="categoryTmpl" type="text/html">
+        </script>
+        <script id="categoryTmpl" type="text/html">
             <div class="cheesegroup">
                 <div class="grouptitle" data-bind="text: category"></div>
                 <div data-bind="foreach: items">
                     <div class="groupcontent">
-                            <label data-bind="attr: {for: id}" class="cheesename">
-                                <span data-bind="text: name"></span> $(<span data-bind="text:price"></span>)
-                            </label>
-                            <input data-bind="attr: {name: id}, value: quantity"/>
-                        </div>
+                        <label data-bind="attr: {for: id}" class="cheesename">
+                            <span data-bind="text: name">
+                            </span> $(<span data-bind="text:price"></span>)
+                        </label>
+                        <input data-bind="attr: {name: id}, value: quantity" />
+                        <span data-bind="visible: subtotal" class="subtotal">
+                            ($<span data-bind="text: subtotal"></span>)
+                        </span>
                     </div>
                 </div>
+            </div>
+        </script>
+        <script id="basketRowTmpl" type="text/html">
+            <tr data-bind="visible: quantity, attr: {'data-prodId': id}">
+                <td data-bind="text: name"></td>
+                <td>$<span data-bind="text: subtotal"></span></td>
+                <td><a href="#"></a></td>
+            </tr>
         </script>
 </head>
 <body>
@@ -111,12 +153,42 @@
             <span id="tagline">Gourmet European Cheese</span>
     </div>
     
+    <div id="basket" class="cheesegroup basket">
+        <div class="grouptitle">Basket</div>
+        <div class="groupcontent">
+            
+            <div class="description" data-bind="ifnot: total">
+                No products selected
+            </div>
+
+            <table id="basketTable" data-bind="visible: total">
+                <thead><tr><th>Cheese</th><th>Subtotal</th><th></th></tr></thead>
+                <tbody data-bind="foreach: products">
+                    <!-- ko template: {name: 'basketRowTmpl', foreach: items} -->
+                    <!-- /ko -->
+                </tbody>
+                <tfoot>
+                    <tr><td class="sumline" colspan=2></td></tr>
+                    <tr>
+                        <th>Total:</th>
+                        <td>$<span data-bind="text: total"></span></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="cornerplaceholder"></div>
+        
+        
+        <div id="buttonDiv">
+            <input type="submit" value="Submit Order" />
+            <input type="reset" value="Reset" />
+        </div>
+
+    </div>
+    
     <div data-bind="template: {name: 'categoryTmpl', data: specials}"></div>
     <form action="/shipping" method="post">
         <div data-bind="template: {name: 'categoryTmpl', foreach: products}"></div>
-        <div id="buttonDiv">
-            <input type="submit" />
-        </div>
     </form>
 </body>
 </html>
